@@ -1,0 +1,11 @@
+name = "kageheroes-claim-cron"
+main = "worker/cron.ts"
+compatibility_date = "2026-08-01"
+
+[triggers]
+crons = ["15 18 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kageheroes-claim"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"

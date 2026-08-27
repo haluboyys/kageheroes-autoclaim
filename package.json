@@ -1,0 +1,37 @@
+{
+  "name": "kageheroes-claim",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:cron": "wrangler deploy -c wrangler.cron.toml"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260820.0",
+    "@sveltejs/adapter-cloudflare": "^7.2.3",
+    "@sveltejs/kit": "^2.37.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "svelte": "^5.56.10",
+    "svelte-check": "^4.7.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6",
+    "vitest": "^3.2.0",
+    "wrangler": "^4.126.0"
+  },
+  "description": "Personal CLI that logs in to Kage Hero Studio and claims only the daily reward currently exposed as active and unclaimed. It uses a real Chromium session because the site may require browser/Cloudflare cookies.",
+  "main": "svelte.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
