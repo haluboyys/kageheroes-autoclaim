@@ -3,7 +3,7 @@ main = "worker/cron.ts"
 compatibility_date = "2026-08-01"
 
 [triggers]
-crons = ["15 18 * * *"]
+crons = ["0 22 * * *"]
 
 [[d1_databases]]
 binding = "DB"
