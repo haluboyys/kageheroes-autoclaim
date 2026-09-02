@@ -7,6 +7,17 @@ export interface Env {
 }
 
 export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    const url = new URL(request.url);
+    if (url.pathname === '/run') {
+      await this.scheduled({} as ScheduledEvent, env, ctx);
+      return new Response(JSON.stringify({ success: true, message: 'Cron triggered successfully' }), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    return new Response('Worker running. Send GET to /run to trigger manually.', { status: 200 });
+  },
+
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
     const encSecret = env.APP_ENCRYPTION_KEY || 'kage-secret-key-32-chars-length';
 
