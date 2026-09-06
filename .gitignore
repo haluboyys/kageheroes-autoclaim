@@ -5,4 +5,5 @@ build
 .dev.vars
 .env
 .DS_Store
+wrangler.toml
 wrangler.cron.toml
