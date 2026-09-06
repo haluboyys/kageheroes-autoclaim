@@ -60,8 +60,7 @@ export const actions: Actions = {
         path: '/',
         httpOnly: true,
         secure: true,
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 30 // 30 days
+        sameSite: 'lax'
       });
       return { success: true };
     }
