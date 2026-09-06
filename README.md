@@ -78,9 +78,11 @@ npx wrangler d1 migrations apply DB --remote
 
 ### 3. Set Environment Secrets
 
-In your Cloudflare Pages project settings (or via Wrangler):
+In your Cloudflare Pages project settings and Worker settings (or via Wrangler):
 - `ACCESS_CODE`: Secret passkey used to unlock the dashboard.
 - `APP_ENCRYPTION_KEY`: 32-character key used for AES-GCM password encryption.
+- `TELEGRAM_BOT_TOKEN`: (Optional) Telegram bot token for claim notification.
+- `TELEGRAM_CHAT_ID`: (Optional) Telegram chat ID to receive notification.
 
 ### 4. Deploy Dashboard (Cloudflare Pages)
 

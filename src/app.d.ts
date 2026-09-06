@@ -11,6 +11,8 @@ declare global {
         DB: D1Database;
         ACCESS_CODE?: string;
         APP_ENCRYPTION_KEY?: string;
+        TELEGRAM_BOT_TOKEN?: string;
+        TELEGRAM_CHAT_ID?: string;
       };
       context: ExecutionContext;
       caches: CacheStorage & { default: Cache };

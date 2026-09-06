@@ -2,6 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { claimAccountDaily } from '$lib/server/claimer';
 import { encrypt, decrypt } from '$lib/server/crypto';
+import { sendTelegramClaimNotification } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ locals, platform }) => {
   if (!locals.authenticated) {
@@ -162,6 +163,20 @@ export const actions: Actions = {
       )
       .run();
 
+    await sendTelegramClaimNotification(
+      {
+        botToken: platform?.env?.TELEGRAM_BOT_TOKEN,
+        chatId: platform?.env?.TELEGRAM_CHAT_ID
+      },
+      {
+        accountLabel: account.label,
+        success: result.success,
+        statusText: result.success ? 'Success' : 'Failed',
+        message: result.message,
+        triggerSource: 'Manual'
+      }
+    );
+
     return {
       success: result.success,
       message: `${account.label}: ${result.message}`
@@ -203,6 +218,20 @@ export const actions: Actions = {
           now
         )
         .run();
+
+      await sendTelegramClaimNotification(
+        {
+          botToken: platform?.env?.TELEGRAM_BOT_TOKEN,
+          chatId: platform?.env?.TELEGRAM_CHAT_ID
+        },
+        {
+          accountLabel: acc.label,
+          success: res.success,
+          statusText: res.success ? 'Success' : 'Failed',
+          message: res.message,
+          triggerSource: 'Manual'
+        }
+      );
     }
 
     return { success: true, message: `Finished claiming for ${accounts.length} accounts (${countSuccess} succeeded)` };

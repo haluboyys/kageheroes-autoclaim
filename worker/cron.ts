@@ -1,9 +1,12 @@
 import { claimAccountDaily } from '../src/lib/server/claimer';
 import { decrypt } from '../src/lib/server/crypto';
+import { sendTelegramClaimNotification } from '../src/lib/server/telegram';
 
 export interface Env {
   DB: D1Database;
   APP_ENCRYPTION_KEY?: string;
+  TELEGRAM_BOT_TOKEN?: string;
+  TELEGRAM_CHAT_ID?: string;
 }
 
 export default {
@@ -51,8 +54,35 @@ export default {
             now
           )
           .run();
+
+        await sendTelegramClaimNotification(
+          {
+            botToken: env.TELEGRAM_BOT_TOKEN,
+            chatId: env.TELEGRAM_CHAT_ID
+          },
+          {
+            accountLabel: acc.label,
+            success: result.success,
+            statusText: result.success ? 'Success' : 'Failed',
+            message: result.message,
+            triggerSource: 'Cron'
+          }
+        );
       } catch (err: any) {
         console.error(`Error claiming for ${acc.game_email}:`, err);
+        await sendTelegramClaimNotification(
+          {
+            botToken: env.TELEGRAM_BOT_TOKEN,
+            chatId: env.TELEGRAM_CHAT_ID
+          },
+          {
+            accountLabel: acc.label || acc.game_email,
+            success: false,
+            statusText: 'Failed',
+            message: err?.message || 'Unexpected error occurred',
+            triggerSource: 'Cron'
+          }
+        );
       }
     }
   }
